@@ -1,0 +1,3 @@
+/home/zabarudo/Desktop/Delta_SysAd_Task1/genUser.sh
+
+alias genUser="find / -type f -name genUser.sh | head -n 1 | bash"
