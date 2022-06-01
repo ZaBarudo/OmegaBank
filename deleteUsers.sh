@@ -1,7 +1,7 @@
 #!/bin/bash
 
-mkdir OmegaBank
-cd OmegaBank
+# Used to delete all users and managers Created
+cd "$(pwd)/OmegaBank"
 echo $(pwd)
 
 inputFile=$1
@@ -21,9 +21,9 @@ fi
 
 for branch in Branch1 Branch2 Branch3 Branch4
 do
-    mkdir $branch
-    sudo useradd -d $(pwd)/$branch "${branch}MGR"
-    sudo passwd -d "${branch}MGR"  # Remove -d later
+    
+    sudo userdel -f "${branch}MGR"
+    
 done
 
 while read -a line;  # Converting each line to array
@@ -35,16 +35,9 @@ do
     age=${line[3]}
     legacy=${line[4]}
 
-    mkdir "${branch}/${username}"  # Makes a directory for the user
-    echo "500">"${branch}/${username}/Current_Balance.txt"  # Adding 500 to Current Balance
-    touch "${branch}/${username}/Transaction_History.txt"  # Creating transaction history
+    sudo userdel -f "${username}"
     
-    sudo useradd -d $(pwd)/${branch}/$username "${username}"
-    sudo passwd -d "${username}"  # Remove -d later
     
 done <<< $(cat $inputFile)
 
-
-sudo useradd -d $(pwd) "CEO"
-sudo passwd -d "CEO"  # Remove -d later
-
+sudo userdel -f "CEO"

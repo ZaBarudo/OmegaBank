@@ -1,3 +1,3 @@
 #!/bin/bash
 
-echo wassup
+echo "Not Complete"
