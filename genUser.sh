@@ -24,6 +24,7 @@ do
     mkdir $branch
     sudo useradd -d $(pwd)/$branch "${branch}MGR"
     sudo passwd -d "${branch}MGR"  # Remove -d later
+    touch "${branch}/Branch_Current_Balance.txt" "${branch}/Branch_Transaction_History.txt" 
 done
 
 while read -a line;  # Converting each line to array
