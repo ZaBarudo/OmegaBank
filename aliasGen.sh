@@ -1,5 +1,8 @@
 #!/bin/bash
 
+
+# Change the aliases according to the people who can run them
+
 echo "alias genUser='$(pwd)/genUser.sh'" >> ~/.bashrc
 echo "alias allotInterest='$(pwd)/allotInterest.sh'" >> ~/.bashrc
 echo "alias makeTransaction='$(pwd)/makeTransaction.sh'" >> ~/.bashrc

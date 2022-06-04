@@ -8,7 +8,6 @@ inputFile=$1
 if [ -z $inputFile ]
 then  # If the manager wants to add custom users, put the txt file in the files directory before passign as arg
     echo $(pwd)
-    echo "Using User_Accounts.txt to create users..."
     inputFile="../files/User_Accounts.txt"
 else
     if [ -f "../files/$inputFile" ]
@@ -42,3 +41,5 @@ do
 done <<< $(cat $inputFile)
 
 sudo userdel -f "CEO"
+
+cd ..

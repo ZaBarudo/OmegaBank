@@ -24,7 +24,16 @@ do
     mkdir $branch
     sudo useradd -d $(pwd)/$branch "${branch}MGR"
     sudo passwd -d "${branch}MGR"  # Remove -d later
-    touch "${branch}/Branch_Current_Balance.txt" "${branch}/Branch_Transaction_History.txt" 
+
+    cd ..
+    sudo setfacl -m g:${branch}MGR:r-x "updateBranch.sh" 
+    echo -e "#!/bin/bash\nalias updateBranch='$(pwd)/updateBranch.sh'" >> "OmegaBank/${branch}/.bash_profile"
+    . "OmegaBank/${branch}/.bash_profile"
+    cd OmegaBank
+
+    touch "${branch}/Branch_Current_Balance.txt" "${branch}/Branch_Transaction_History.txt"
+    cp "../files/Daily_Interest_Rates.txt" "${branch}/Daily_Interest_Rates.txt"
+
 done
 
 while read -a line;  # Converting each line to array
@@ -42,10 +51,34 @@ do
     
     sudo useradd -d $(pwd)/${branch}/$username "${username}"
     sudo passwd -d "${username}"  # Remove -d later
+
+    cd ..
+    sudo setfacl -m g:${username}:r-x "makeTransaction.sh" 
+    
+    echo -e "#!/bin/bash\nalias makeTransaction='$(pwd)/makeTransaction.sh'" >> "OmegaBank/${branch}/${username}/.bash_profile"
+    . "OmegaBank/${branch}/${username}/.bash_profile"
+    cd OmegaBank
+
+    if [ ${type} != "-" ]
+    then
+        echo -e "${type}" >> "${branch}/${username}/User_Details.txt"
+    fi
+    if [ ${age} != "-" ]
+    then
+        echo -e "${age}" >> "${branch}/${username}/User_Details.txt"
+    fi
+    if [ ${legacy} != "-" ]
+    then
+        echo -e "${legacy}" >> "${branch}/${username}/User_Details.txt"
+    fi
     
 done <<< $(cat $inputFile)
 
-
+mkdir CEO
 sudo useradd -d $(pwd) "CEO"
 sudo passwd -d "CEO"  # Remove -d later
 
+cd ..
+sudo setfacl -m g:CEO:r-x "allotInterest.sh" 
+echo -e '#!/bin/bash\nalias allotInterest="$(pwd)/allotInterest.sh"' >> "OmegaBank/CEO/.bash_profile"
+. "OmegaBank/CEO/.bash_profile"
